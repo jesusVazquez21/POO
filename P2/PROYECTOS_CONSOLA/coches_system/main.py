@@ -34,7 +34,7 @@ class App:
 
     def imprimir_datos_vehiculo(self, marca,color,modelo,velocidad,potencia,plazas):
         self.borrarPantalla()
-        print(f"\n\tDatos del Vehiculo: \n Marca:{marca} \n color: {color} \n Modelo: {modelo} \n velocidad: {velocidad} \n caballaje: {potencia} \n plazas: {plazas}")
+        print(f"\n\tDatos del Vehiculo: \n       Marca:{marca} \n color: {color} \n Modelo: {modelo} \n velocidad: {velocidad} \n caballaje: {potencia} \n plazas: {plazas}")
 
     def autos(self):
         marca,color,modelo,velocidad,potencia,plazas=self.datos_autos("Auto")
@@ -232,6 +232,7 @@ class App:
 
 if __name__=="__main__":
     app=App()
+
 
 
 
