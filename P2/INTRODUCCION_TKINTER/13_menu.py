@@ -1,7 +1,7 @@
 from tkinter import *
 
 def mensaje(tipo):
-    resultado.config(Text=f"{tipo}")
+    resultado.config(text=f"{tipo}")
     
 def borrar():
     ventana.quit()
