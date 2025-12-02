@@ -15,9 +15,6 @@ PRODUCTOS ENTREGABLES
     Estructura del proyecto basada en MVC
     Modulo Principal Main
     Interaccion con las interfaces
-    Nombre del Commit  "commit_01-12-25"
-    
-
 """
 class App:
     @staticmethod

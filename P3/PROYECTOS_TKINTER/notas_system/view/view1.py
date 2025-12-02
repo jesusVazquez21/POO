@@ -6,7 +6,6 @@ from controller.controlador1 import Controlador
 id_user = None
 nom_user = ""
 ape_user = ""
-
 class View:
     def __init__(self, ventana):
         self.ventana=ventana    
@@ -232,43 +231,6 @@ class View:
         )
         btn_regresar.pack(pady=20)
 
-
-
-    # @staticmethod
-    # def mostrarNota(ventana):
-    #     View.limpiar_ventana(ventana) 
-        
-    #     lbl_titulo = Label(ventana, text="..:: Consulta de Notas ::..", bg="#ffffff", font=("Arial", 12, "bold"))
-    #     lbl_titulo.pack(pady=5)
-        
-    #     lbl_tittle=Label(ventana, text=f"Bienvenido {nom_user} {ape_user}", bg="#ffffff")
-    #     lbl_tittle.pack()
-        
-    #     filas = ""
-    #     registros = [
-    #         ["1", "100", "Nota de Prueba", "Info", "2025-11-24", "Comprar leche y pan"],
-    #         ["2", "101", "Reunión", "Info", "2025-11-25", "Junta con el equipo de TI"]
-    #     ]
-    #     num_nota = 1
-        
-    #     if len(registros) > 0:
-    #         for fila in registros:
-    #             filas += f"Nota {num_nota}: ID: {fila[0]} | Título: {fila[2]} Fecha: {fila[4]}\n Descripción: {fila[5]}\n\n" 
-    #             num_nota += 1
-    #     else:
-    #         messagebox.showwarning("Alerta", "No existen notas para este usuario")
-            
-    #     lbl_registros = Label(ventana, text=filas, bg="#ffffff", justify=LEFT) 
-    #     lbl_registros.pack(pady=10)
-        
-    #     btn_regresar = Button(
-    #         ventana, 
-    #         text="5.- Volver", 
-    #         width=20,
-    #         command=lambda: View.menuNotas(ventana, id_user, nom_user, ape_user) 
-    #     )
-    #     btn_regresar.pack(pady=20)
-
     @staticmethod
     def cambiarNota(ventana):
         View.limpiar_ventana(ventana)
@@ -342,3 +304,5 @@ class View:
             command=lambda: View.menuNotas(ventana, id_user, nom_user, ape_user)
         )
         btn_volver.pack(pady=5)
+        
+        

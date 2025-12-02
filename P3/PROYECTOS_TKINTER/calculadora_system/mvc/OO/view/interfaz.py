@@ -136,7 +136,6 @@ class Vista:
         Button(ventana, text="Buscar", command=verificar_existencia, bg="#dddddd").pack(pady=10)
         # Permite pulsar "Enter" para buscar
         ventana.bind('<Return>', lambda event: verificar_existencia())
-    
 
     @staticmethod
     def interfaz_cambiar(ventana, id_encontrado, num1_encontrado, num2_encontrado, signo_encontrado, resultado_encontrado):
@@ -229,9 +228,6 @@ class Vista:
         )
         btn_volver.pack(pady=5)
     
-    #------------------------------------------------------------------------------------
-    #       Metodo para borrar pantalla
-    #------------------------------------------------------------------------------------
     @staticmethod
     def limpiar_ventana(ventana):
         for widget in ventana.winfo_children():
@@ -249,15 +245,6 @@ class Vista:
         eliminado = Operaciones.eliminar(id_op)
         # Uso de Funciones.respuesta
         Funciones.respuesta(eliminado, accion=f"La eliminación del registro con ID:{id_op}")
-        
-    # @staticmethod
-    # def eliminar(id):
-    #     eliminar = Operaciones.eliminar(id)
-    #     if eliminar:
-    #         messagebox.showinfo("Exito",f"Se eliminó el registro con ID:{id} exitosamente")
-    #     else:
-    #         messagebox.showinfo("Error",f"No fue posible eliminar el registro")
-    
     
     @staticmethod
     def cambiar(id_op, val1, val2, signo, nuevo_resultado_manual):
@@ -285,27 +272,6 @@ class Vista:
         actualizado = Operaciones.actualizar(val1, val2, signo, resultado_calculado, id_op)    
         
         Funciones.respuesta(actualizado, accion=f"La actualización del registro con ID:{id_op}")
-
-    # @staticmethod
-    # def cambiar(id_op, val1, val2, signo, nuevo_resultado_manual):
-    #     resultado_calculado = None
-    #     if signo == '+':
-    #         resultado_calculado = val1 + val2
-    #     elif signo == '-':
-    #         resultado_calculado = val1 - val2
-    #     elif signo == 'x':
-    #         resultado_calculado = val1 * val2
-    #     elif signo == '/':
-    #         resultado_calculado = val1 / val2
-    #     else:
-    #         messagebox.showerror("Error", "Signo de operación no válido. Use +, -, *, /")
-    #         return
-
-    #     actualizado = Operaciones.actualizar(val1, val2,signo,resultado_calculado, id_op)         
-    #     if actualizado:
-    #         messagebox.showinfo("Éxito", f"El registro con ID:{id_op} fue actualizado exitosamente")
-    #     else:
-    #         messagebox.showerror("Desacierto con el ID", f"No fue posible actualizar el registro con ID:{id_op}. Verifique el ID.")
 
     @staticmethod
     def interfaz_principal(ventana):
@@ -375,6 +341,7 @@ class Vista:
         # btn_eliminar = Button(ventana,text="Eliminar",font=("Arial",14),command=lambda:funciones.Funciones.eliminar(self.valores[0]),width=10)
         # btn_eliminar.pack(pady=10)
         # """
+
 
 
 # class Vista:
