@@ -103,13 +103,16 @@ class Vista:
         self.limpiar_campos_auto()
         Label(self.wind, text="ACTUALIZAR AUTO").pack(pady=10)
         
-        Label(self.wind, text="ID a Actualizar:").pack()
-        Entry(self.wind, textvariable=self.a_id).pack()
+        frame_buscar = Frame(self.wind)
+        frame_buscar.pack(pady=5)
+        Label(frame_buscar, text="ID a Buscar:").pack(side=LEFT)
+        Entry(frame_buscar, textvariable=self.a_id, width=10).pack(side=LEFT, padx=5)
+        Button(frame_buscar, text="Buscar ID", command=self.buscar_auto).pack(side=LEFT)
         
-        Label(self.wind, text="-- Nuevos Datos --").pack(pady=5)
+        Label(self.wind, text="-- Editar Datos --").pack(pady=5)
         self.entry_form_autos()
         
-        Button(self.wind, text="Actualizar", command=self.editar_auto).pack(pady=10)
+        Button(self.wind, text="Actualizar Cambios", command=self.editar_auto).pack(pady=10)
         Button(self.wind, text="Regresar", command=self.menu_autos).pack(pady=5)
 
     def vista_auto_eliminar(self):
@@ -123,7 +126,7 @@ class Vista:
         Button(self.wind, text="Eliminar", command=self.eliminar_auto).pack(pady=10)
         Button(self.wind, text="Regresar", command=self.menu_autos).pack(pady=5)
         
-    def buscar_auto_para_editar(self):
+    def buscar_auto(self):
         if not self.a_id.get():
             messagebox.showwarning("Alerta", "Escribe un ID primero")
             return
@@ -172,7 +175,10 @@ class Vista:
             self.limpiar_campos_auto()
 
     def eliminar_auto(self):
-        pass
+        res=coches.Autos.eliminar(self.a_id.get())
+        Controlador.respuesta(res)
+        if res:
+            self.limpiar_campos_auto()
     
     def limpiar_campos_auto(self):
         self.a_id.set(""); self.a_marca.set(""); self.a_color.set(""); self.a_modelo.set(""); self.a_vel.set(0); self.a_hp.set(0); self.a_plazas.set(0)
@@ -205,13 +211,16 @@ class Vista:
         self.limpiar_campos_camioneta()
         Label(self.wind, text="ACTUALIZAR CAMIONETA").pack(pady=10)
         
-        Label(self.wind, text="ID a Actualizar:").pack()
-        Entry(self.wind, textvariable=self.c_id).pack()
+        frame_buscar = Frame(self.wind)
+        frame_buscar.pack(pady=5)
+        Label(frame_buscar, text="ID a Buscar:").pack(side=LEFT)
+        Entry(frame_buscar, textvariable=self.c_id, width=10).pack(side=LEFT, padx=5)
+        Button(frame_buscar, text="Buscar ID", command=self.buscar_camioneta).pack(side=LEFT)
         
-        Label(self.wind, text="-- Nuevos Datos --").pack(pady=5)
+        Label(self.wind, text="-- Editar Datos --").pack(pady=5)
         self.entry_form_camionetas()
         
-        Button(self.wind, text="Actualizar", command=self.editar_camioneta).pack(pady=10)
+        Button(self.wind, text="Actualizar Cambios", command=self.editar_camioneta).pack(pady=10)
         Button(self.wind, text="Regresar", command=self.menu_camionetas).pack(pady=5)
 
     def vista_camioneta_eliminar(self):
@@ -219,12 +228,39 @@ class Vista:
         self.limpiar_campos_camioneta()
         Label(self.wind, text="ELIMINAR CAMIONETA").pack(pady=10)
         
-        Label(self.wind, text="ID a Eliminar:").pack()
-        Entry(self.wind, textvariable=self.c_id).pack()
+        frame_buscar = Frame(self.wind)
+        frame_buscar.pack(pady=5)
+        Label(frame_buscar, text="ID a Buscar:").pack(side=LEFT)
+        Entry(frame_buscar, textvariable=self.c_id, width=10).pack(side=LEFT, padx=5)
+        Button(frame_buscar, text="Buscar ID", command=self.buscar_camioneta).pack(side=LEFT)
+        
+        self.entry_form_camionetas()
+        
+        # Label(self.wind, text="ID a Eliminar:").pack()
+        # Entry(self.wind, textvariable=self.c_id).pack()
         
         Button(self.wind, text="Eliminar", command=self.eliminar_camioneta).pack(pady=10)
         Button(self.wind, text="Regresar", command=self.menu_camionetas).pack(pady=5)
 
+    def buscar_camioneta(self):
+        if not self.c_id.get():
+            messagebox.showwarning("Alerta", "Escribe un ID primero")
+            return
+        
+        dato = coches.Camionetas.buscar(self.c_id.get())
+        if dato:
+            self.c_marca.set(dato[1])
+            self.c_color.set(dato[2])
+            self.c_modelo.set(dato[3])
+            self.c_vel.set(dato[4])
+            self.c_hp.set(dato[5])
+            self.c_plazas.set(dato[6])
+            self.c_traccion.set(dato[7])
+            self.c_cerrada.set(dato[8])
+        else:
+            messagebox.showerror("Error", "No se encontró ningún auto con ese ID")
+            self.limpiar_campos_camioneta()
+    
     def entry_form_camionetas(self):
         Label(self.wind, text="Marca:").pack()
         Entry(self.wind, textvariable=self.c_marca).pack()
@@ -251,13 +287,22 @@ class Vista:
         Entry(self.wind, textvariable=self.c_cerrada).pack()
     
     def guardar_camioneta(self):
-        pass
+        res = coches.Camionetas.insertar(self.c_marca.get(), self.c_color.get(), self.c_modelo.get(), self.c_vel.get(), self.c_hp.get(), self.c_plazas.get(), self.c_traccion.get(), self.c_cerrada.get())
+        Controlador.respuesta(res)
+        if res: 
+            self.limpiar_campos_camioneta()
 
     def editar_camioneta(self):
-        pass
+        res = coches.Camionetas.actualizar(self.c_marca.get(), self.c_color.get(), self.c_modelo.get(), self.c_vel.get(), self.c_hp.get(), self.c_plazas.get(), self.c_traccion.get(), self.c_cerrada.get())
+        Controlador.respuesta(res)
+        if res: 
+            self.limpiar_campos_camioneta()
 
     def eliminar_camioneta(self):
-        pass
+        res=coches.Camionetas.eliminar(self.c_id.get())
+        Controlador.respuesta(res)
+        if res:
+            self.limpiar_campos_camioneta()
 
     def limpiar_campos_camioneta(self):
         self.c_id.set(""); self.c_marca.set(""); self.c_color.set(""); self.c_modelo.set(""); self.c_vel.set(0); self.c_hp.set(0); self.c_plazas.set(0); self.c_traccion.set(""); self.c_cerrada.set("")
