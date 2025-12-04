@@ -116,14 +116,20 @@ class Vista:
         Button(self.wind, text="Regresar", command=self.menu_autos).pack(pady=5)
 
     def vista_auto_eliminar(self):
-        self.limpiar_ventana()
+        self.limpiar_ventana(); 
         self.limpiar_campos_auto()
         Label(self.wind, text="ELIMINAR AUTO").pack(pady=10)
         
-        Label(self.wind, text="ID a Eliminar:").pack()
-        Entry(self.wind, textvariable=self.a_id).pack()
+        f = Frame(self.wind)
+        f.pack(pady=5)
+        Label(f, text="ID a Eliminar:").pack(side=LEFT)
+        Entry(f, textvariable=self.a_id, width=10).pack(side=LEFT, padx=5)
+        Button(f, text="Buscar para confirmar", command=self.buscar_auto).pack(side=LEFT)
         
-        Button(self.wind, text="Eliminar", command=self.eliminar_auto).pack(pady=10)
+        Label(self.wind, text="-- Datos Encontrados --").pack(pady=5)
+        self.entry_form_autos() 
+        
+        Button(self.wind, text="ELIMINAR DEFINITIVAMENTE", command=self.eliminar_auto).pack(pady=10)
         Button(self.wind, text="Regresar", command=self.menu_autos).pack(pady=5)
         
     def buscar_auto(self):
@@ -230,16 +236,14 @@ class Vista:
         
         frame_buscar = Frame(self.wind)
         frame_buscar.pack(pady=5)
-        Label(frame_buscar, text="ID a Buscar:").pack(side=LEFT)
+        Label(frame_buscar, text="ID a Eliminar:").pack(side=LEFT)
         Entry(frame_buscar, textvariable=self.c_id, width=10).pack(side=LEFT, padx=5)
-        Button(frame_buscar, text="Buscar ID", command=self.buscar_camioneta).pack(side=LEFT)
+        Button(frame_buscar, text="Buscar para confirmar", command=self.buscar_camioneta).pack(side=LEFT)
         
-        self.entry_form_camionetas()
+        Label(self.wind, text="-- Datos Encontrados --").pack(pady=5)
+        self.entry_form_camionetas() 
         
-        # Label(self.wind, text="ID a Eliminar:").pack()
-        # Entry(self.wind, textvariable=self.c_id).pack()
-        
-        Button(self.wind, text="Eliminar", command=self.eliminar_camioneta).pack(pady=10)
+        Button(self.wind, text="ELIMINAR DEFINITIVAMENTE", command=self.eliminar_camioneta).pack(pady=10)
         Button(self.wind, text="Regresar", command=self.menu_camionetas).pack(pady=5)
 
     def buscar_camioneta(self):
