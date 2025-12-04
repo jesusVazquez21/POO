@@ -88,7 +88,7 @@ class Camionetas:
     @staticmethod
     def eliminar(id_camioneta):
         try:
-            cursor.execute("DELETE FROM camioneta WHERE id_camioneta=%s", (id_camioneta,))
+            cursor.execute("DELETE FROM camionetas WHERE id_camioneta=%s", (id_camioneta,))
             conexion.commit()
             return True
         except:
@@ -135,7 +135,7 @@ class Camiones:
     @staticmethod
     def eliminar(id_camion):
         try:
-            cursor.execute("DELETE FROM camioneta WHERE id_camion=%s", (id_camion,))
+            cursor.execute("DELETE FROM camiones WHERE id_camion=%s", (id_camion,))
             conexion.commit()
             return True
         except:

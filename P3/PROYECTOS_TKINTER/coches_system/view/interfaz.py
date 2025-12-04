@@ -181,10 +181,11 @@ class Vista:
             self.limpiar_campos_auto()
 
     def eliminar_auto(self):
-        res=coches.Autos.eliminar(self.a_id.get())
-        Controlador.respuesta(res)
-        if res:
-            self.limpiar_campos_auto()
+        if messagebox.askyesno("Confirmar", "¿Seguro que desea eliminar este auto?"):
+            res = coches.Autos.eliminar(self.a_id.get())
+            Controlador.respuesta(res)
+            if res: 
+                self.limpiar_campos_auto()
     
     def limpiar_campos_auto(self):
         self.a_id.set(""); self.a_marca.set(""); self.a_color.set(""); self.a_modelo.set(""); self.a_vel.set(0); self.a_hp.set(0); self.a_plazas.set(0)
@@ -203,7 +204,7 @@ class Vista:
         self.limpiar_ventana()
         Label(self.wind, text="CONSULTA DE CAMIONETAS").pack(pady=10)
         
-        lista = Listbox(self.wind, width=100, height=20)
+        lista = Listbox(self.wind, width=130, height=20)
         lista.pack(pady=10)
         
         registros = coches.Camionetas.consultar()
@@ -234,16 +235,14 @@ class Vista:
         self.limpiar_campos_camioneta()
         Label(self.wind, text="ELIMINAR CAMIONETA").pack(pady=10)
         
-        frame_buscar = Frame(self.wind)
-        frame_buscar.pack(pady=5)
-        Label(frame_buscar, text="ID a Eliminar:").pack(side=LEFT)
-        Entry(frame_buscar, textvariable=self.c_id, width=10).pack(side=LEFT, padx=5)
-        Button(frame_buscar, text="Buscar para confirmar", command=self.buscar_camioneta).pack(side=LEFT)
+        f = Frame(self.wind); f.pack(pady=5)
+        Label(f, text="ID a Eliminar:").pack(side=LEFT)
+        Entry(f, textvariable=self.c_id, width=10).pack(side=LEFT, padx=5)
+        Button(f, text="Buscar para confirmar", command=self.buscar_camioneta).pack(side=LEFT)
         
         Label(self.wind, text="-- Datos Encontrados --").pack(pady=5)
-        self.entry_form_camionetas() 
-        
-        Button(self.wind, text="ELIMINAR DEFINITIVAMENTE", command=self.eliminar_camioneta).pack(pady=10)
+        self.entry_form_camionetas()
+        Button(self.wind, text="ELIMINAR", command=self.eliminar_camioneta).pack(pady=10)
         Button(self.wind, text="Regresar", command=self.menu_camionetas).pack(pady=5)
 
     def buscar_camioneta(self):
@@ -297,21 +296,22 @@ class Vista:
             self.limpiar_campos_camioneta()
 
     def editar_camioneta(self):
-        res = coches.Camionetas.actualizar(self.c_marca.get(), self.c_color.get(), self.c_modelo.get(), self.c_vel.get(), self.c_hp.get(), self.c_plazas.get(), self.c_traccion.get(), self.c_cerrada.get())
+        res = coches.Camionetas.actualizar(self.c_marca.get(), self.c_color.get(), self.c_modelo.get(), self.c_vel.get(), self.c_hp.get(), self.c_plazas.get(), self.c_traccion.get(), self.c_cerrada.get(), self.c_id.get())
         Controlador.respuesta(res)
         if res: 
             self.limpiar_campos_camioneta()
 
     def eliminar_camioneta(self):
-        res=coches.Camionetas.eliminar(self.c_id.get())
-        Controlador.respuesta(res)
-        if res:
-            self.limpiar_campos_camioneta()
-
+        if messagebox.askyesno("Confirmar", "¿Eliminar camioneta?"):
+            res = coches.Camionetas.eliminar(self.c_id.get())
+            Controlador.respuesta(res); 
+            if res: 
+                self.limpiar_campos_camioneta()
+                
     def limpiar_campos_camioneta(self):
         self.c_id.set(""); self.c_marca.set(""); self.c_color.set(""); self.c_modelo.set(""); self.c_vel.set(0); self.c_hp.set(0); self.c_plazas.set(0); self.c_traccion.set(""); self.c_cerrada.set("")
 
-        # ------------CAMIONES----------
+    # ------------CAMIONES----------
         
     def vista_camion_insertar(self):
         self.limpiar_ventana()
@@ -325,7 +325,7 @@ class Vista:
         self.limpiar_ventana()
         Label(self.wind, text="CONSULTA DE CAMION").pack(pady=10)
         
-        lista = Listbox(self.wind, width=100, height=20)
+        lista = Listbox(self.wind, width=130, height=20)
         lista.pack(pady=10)
         
         registros = coches.Camiones.consultar()
@@ -353,12 +353,34 @@ class Vista:
         self.limpiar_campos_camion()
         Label(self.wind, text="ELIMINAR CAMION").pack(pady=10)
         
-        Label(self.wind, text="ID a Eliminar:").pack()
-        Entry(self.wind, textvariable=self.t_id).pack()
+        f = Frame(self.wind); f.pack(pady=5)
+        Label(f, text="ID a Eliminar:").pack(side=LEFT)
+        Entry(f, textvariable=self.t_id, width=10).pack(side=LEFT, padx=5)
+        Button(f, text="Buscar para confirmar", command=self.buscar_camion).pack(side=LEFT)
         
-        Button(self.wind, text="Eliminar", command=self.eliminar_camion).pack(pady=10)
+        Label(self.wind, text="-- Datos Encontrados --").pack(pady=5)
+        self.entry_form_camiones()
+        Button(self.wind, text="ELIMINAR", command=self.eliminar_camion, bg="red", fg="white").pack(pady=10)
         Button(self.wind, text="Regresar", command=self.menu_camiones).pack(pady=5)
     
+    def buscar_camion(self):
+        if not self.t_id.get():
+            messagebox.showwarning("Alerta", "Escribe un ID primero")
+            return
+        
+        dato = coches.Camiones.buscar(self.t_id.get())
+        if dato:
+            self.t_marca.set(dato[1])
+            self.t_color.set(dato[2])
+            self.t_modelo.set(dato[3])
+            self.t_vel.set(dato[4])
+            self.t_hp.set(dato[5])
+            self.t_plazas.set(dato[6])
+            self.t_ejes.set(dato[7])
+            self.t_carga.set(dato[8])
+        else:
+            messagebox.showerror("Error", "No se encontró ningún auto con ese ID")
+            self.limpiar_campos_camion()
 
     def entry_form_camiones(self):
         Label(self.wind, text="Marca:").pack()
