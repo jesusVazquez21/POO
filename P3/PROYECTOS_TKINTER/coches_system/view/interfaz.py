@@ -94,7 +94,7 @@ class Vista:
         
         registros = coches.Autos.consultar()
         for fila in registros:
-            lista.insert(END, f"ID:{fila[0]} | Marca: {fila[1]} | Color: {fila[2]} | Modelo{fila[3]} | Velocidad:{fila[4]} | Caballaje:{fila[5]} | Plazas:{fila[6]}")
+            lista.insert(END, f"ID:{fila[0]} | Marca: {fila[1]} | Color: {fila[2]} | Modelo: {fila[3]} | Velocidad:{fila[4]} | Caballaje:{fila[5]} | Plazas:{fila[6]}")
             
         Button(self.wind, text="Regresar", command=self.menu_autos).pack(pady=10)
 
@@ -209,7 +209,7 @@ class Vista:
         
         registros = coches.Camionetas.consultar()
         for fila in registros:
-            lista.insert(END, f"ID:{fila[0]} | Marca: {fila[1]} | Color: {fila[2]} | Modelo{fila[3]} | Velocidad:{fila[4]} | Caballaje:{fila[5]} | Plazas:{fila[6]} | Traccion:{fila[7]} | Cerrada:{fila[8]}")
+            lista.insert(END, f"ID:{fila[0]} | Marca: {fila[1]} | Color: {fila[2]} | Modelo: {fila[3]} | Velocidad:{fila[4]} | Caballaje:{fila[5]} | Plazas:{fila[6]} | Traccion:{fila[7]} | Cerrada:{fila[8]}")
             
         Button(self.wind, text="Regresar", command=self.menu_camionetas).pack(pady=10)
 
@@ -337,16 +337,18 @@ class Vista:
     def vista_camion_actualizar(self):
         self.limpiar_ventana()
         self.limpiar_campos_camion()
-        Label(self.wind, text="ACTUALIZAR CAMIONES").pack(pady=10)
+        Label(self.wind, text="ACTUALIZAR CAMION").pack(pady=10)
         
-        Label(self.wind, text="ID a Actualizar:").pack()
-        Entry(self.wind, textvariable=self.t_id).pack()
-        
+        f = Frame(self.wind); f.pack(pady=5)
+        Label(f, text="ID a Buscar:").pack(side=LEFT)
+        Entry(f, textvariable=self.t_id, width=10).pack(side=LEFT, padx=5)
+        Button(f, text="Buscar", command=self.buscar_camion).pack(side=LEFT)
+
         Label(self.wind, text="-- Nuevos Datos --").pack(pady=5)
         self.entry_form_camiones()
-        
         Button(self.wind, text="Actualizar", command=self.editar_camion).pack(pady=10)
         Button(self.wind, text="Regresar", command=self.menu_camiones).pack(pady=5)
+
 
     def vista_camion_eliminar(self):
         self.limpiar_ventana()
@@ -360,7 +362,7 @@ class Vista:
         
         Label(self.wind, text="-- Datos Encontrados --").pack(pady=5)
         self.entry_form_camiones()
-        Button(self.wind, text="ELIMINAR", command=self.eliminar_camion, bg="red", fg="white").pack(pady=10)
+        Button(self.wind, text="ELIMINAR", command=self.eliminar_camion).pack(pady=10)
         Button(self.wind, text="Regresar", command=self.menu_camiones).pack(pady=5)
     
     def buscar_camion(self):
@@ -383,38 +385,47 @@ class Vista:
             self.limpiar_campos_camion()
 
     def entry_form_camiones(self):
-        Label(self.wind, text="Marca:").pack()
+        Label(self.wind, text="Marca: ").pack()
         Entry(self.wind, textvariable=self.t_marca).pack()
 
-        Label(self.wind, text="Color:").pack()
+        Label(self.wind, text="Color: ").pack()
         Entry(self.wind, textvariable=self.t_color).pack()
 
-        Label(self.wind, text="Modelo:").pack()
+        Label(self.wind, text="Modelo: ").pack()
         Entry(self.wind, textvariable=self.t_modelo).pack()
 
-        Label(self.wind, text="Velocidad:").pack()
+        Label(self.wind, text="Velocidad: ").pack()
         Entry(self.wind, textvariable=self.t_vel).pack()
 
-        Label(self.wind, text="Potencia:").pack()
+        Label(self.wind, text="Potencia: ").pack()
         Entry(self.wind, textvariable=self.t_hp).pack()
 
-        Label(self.wind, text="Plazas:").pack()
+        Label(self.wind, text="Plazas: ").pack()
         Entry(self.wind, textvariable=self.t_plazas).pack()
         
-        Label(self.wind, text="Traccion:").pack()
+        Label(self.wind, text="Eje: ").pack()
         Entry(self.wind, textvariable=self.t_ejes).pack()
         
-        Label(self.wind, text="Cerrada:").pack()
+        Label(self.wind, text="Capacidad de Carga: ").pack()
         Entry(self.wind, textvariable=self.t_carga).pack()
 
     def guardar_camion(self):
-        pass
+        res = coches.Camiones.insertar(self.t_marca.get(), self.t_color.get(), self.t_modelo.get(), self.t_vel.get(), self.t_hp.get(), self.t_plazas.get(), self.t_ejes.get(), self.t_carga.get())
+        Controlador.respuesta(res)
+        if res: 
+            self.limpiar_campos_camion()
 
     def editar_camion(self):
-        pass
+        res = coches.Camiones.actualizar(self.t_marca.get(), self.t_color.get(), self.t_modelo.get(), self.t_vel.get(), self.t_hp.get(), self.t_plazas.get(), self.t_ejes.get(), self.t_carga.get(), self.t_id.get())
+        Controlador.respuesta(res); 
+        if res: self.limpiar_campos_camion()
 
     def eliminar_camion(self):
-        pass
+        if messagebox.askyesno("Confirmar", "¿Eliminar camión?"):
+            res = coches.Camiones.eliminar(self.t_id.get())
+            Controlador.respuesta(res); 
+            if res: 
+                self.limpiar_campos_camion()
 
     def limpiar_campos_camion(self):
         self.t_id.set(""); self.t_marca.set(""); self.t_color.set(""); self.t_modelo.set(""); self.t_vel.set(0); self.t_hp.set(0); self.t_plazas.set(0); self.t_ejes.set(0); self.t_carga.set(0)

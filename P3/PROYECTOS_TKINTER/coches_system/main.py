@@ -67,7 +67,7 @@ PRODUCTOS ENTREGABLES
         1.2 consultar_camiones()
         1.3 cambiar_camiones()
         1.4 borrar_camiones()
-        
+    
     Productos Entregables:
     Interaccion con la funcionalidad (controlador) de las interfaces anteriores
     Nombre del Commit "commit_05_12_25"
